@@ -21,6 +21,7 @@ class SuperHeroeAdapter(private val superHeroeList:List<SuperHeroe>):RecyclerVie
 
     override fun onBindViewHolder(holder: SuperHeroeView, position: Int) {
         val item = superHeroeList[position]
+
         holder.render(item)
     }
 }

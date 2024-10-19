@@ -14,8 +14,11 @@ import com.example.consumirapi.adapter.SuperHeroeAdapter
 import com.example.consumirapi.api.PostApiService
 import com.example.consumirapi.api.SuperHeroe
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
+import okhttp3.logging.HttpLoggingInterceptor
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +41,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getData(){
+
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+
+
         val retrofit = Retrofit.Builder()
             .baseUrl(urlBase)
             .addConverterFactory(GsonConverterFactory.create())
@@ -48,9 +57,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch{
             val response = service.getHeroesPost()
             superHeroeList = response
-            response.forEach{
-                println(it)
-            }
+            //response.forEach{println(it)}
 
             runOnUiThread{
                 initReclyclerView(response)
