@@ -1,7 +1,11 @@
 package com.example.consumirapi.adapter
 
+import android.graphics.Typeface
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -59,7 +63,28 @@ class SuperHeroeView(view:View):RecyclerView.ViewHolder(view) {
                     try {
                         val heroId = ivFoto.tag.toString()
                         val poder = service.getHeroeId(heroId)
-                        Toast.makeText(ivFoto.context, poder.toString(), Toast.LENGTH_LONG).show()
+                        //val toast = Toast.makeText(ivFoto.context, poder.toString(), Toast.LENGTH_LONG).show()
+
+                        val inflater = LayoutInflater.from(ivFoto.context)
+
+                        val layout: View = inflater.inflate(R.layout.toast,null)
+
+                        val text: TextView = layout.findViewById(R.id.toast_message)
+                        text.text = """
+                            Inteligencia: ${poder.inteligencia}
+                            Poder: ${poder.poder}
+                            Velocidad: ${poder.velocidad}
+                            Fuerza: ${poder.fuerza}
+                            Combate: ${poder.combate}
+                        """.trimIndent()
+
+
+                        val toast = Toast(ivFoto.context)
+                        toast.duration = Toast.LENGTH_LONG
+                        toast.setGravity(Gravity.CENTER, 0, 0)
+                        toast.view = layout // Usar la vista personalizada
+                        toast.show()
+
                     } catch (e:Exception){
                         Toast.makeText(ivFoto.context,"Error: ${e.message}",Toast.LENGTH_LONG).show()
                     }
